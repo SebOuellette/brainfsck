@@ -19,7 +19,8 @@ std::string readFile () {
 
 	// Check if there is input in stdin
 	if (poll(&stdinPoll, 1, 0) == 1) {
-		while (std::cin >> retString) continue;
+		std::string tmp;
+		while (std::cin >> tmp) retString += tmp;
 	}
 
 	return retString;
@@ -30,20 +31,19 @@ void updateCallStack(char data, int *callStack) {
 }
 
 int main(int argc, char* argv[]) {
+	// Read stdin to see if data was piped in
+	std::string bfSourceCode = readFile();
+
+	// Taking input from arguments
 	// Scan for arguments
 	bool PRINT_DIGIT = false;
 	for (int i=1;i<argc;i++) {
 		if (strncmp(argv[i], "-d", 4) == 0) {
 			PRINT_DIGIT = true;
+		} else {
+			bfSourceCode += argv[i];
 		}
 	}
-
-	// Read stdin to see if data was piped in
-	std::string bfSourceCode = readFile();
-
-	// Taking input from arguments
-	for (int i=1;i<argc;i++)
-		bfSourceCode += argv[i];
 
 	// Create the array, initialize all elements to 0
 	byte* array = (byte*) std::calloc(ARRAY_SIZE, sizeof(byte));
