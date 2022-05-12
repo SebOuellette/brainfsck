@@ -4,6 +4,7 @@
 #include <string>
 #include <sys/poll.h>
 #include <vector>
+#include <string.h>
 
 // In the original implementation, the array was 30000 characters long
 #define ARRAY_SIZE 30000
@@ -29,14 +30,20 @@ void updateCallStack(char data, int *callStack) {
 }
 
 int main(int argc, char* argv[]) {
-	std::string bfSourceCode;
+	// Scan for arguments
+	bool PRINT_DIGIT = false;
+	for (int i=1;i<argc;i++) {
+		if (strncmp(argv[i], "-d", 4) == 0) {
+			PRINT_DIGIT = true;
+		}
+	}
 
-	bfSourceCode = readFile();
+	// Read stdin to see if data was piped in
+	std::string bfSourceCode = readFile();
 
 	// Taking input from arguments
 	for (int i=1;i<argc;i++)
 		bfSourceCode += argv[i];
-
 
 	// Create the array, initialize all elements to 0
 	byte* array = (byte*) std::calloc(ARRAY_SIZE, sizeof(byte));
@@ -60,8 +67,12 @@ int main(int argc, char* argv[]) {
 			case '<': pointer--; break;
 			case '+': array[pointer]++; break;
 			case '-': array[pointer]--; break;
-			case '.': std::putc(array[pointer], stdout); break;
-			//case '.': std::cout << +array[pointer]; break;
+
+			case '.': 
+			if (PRINT_DIGIT) std::cout << +array[pointer] << " ";
+			else std::putc(array[pointer], stdout); 
+			break;
+
 			case ',': array[pointer] = std::getc(stdin); break;
 			// If we reached termination, skip to end of loop
 			case '[': 
