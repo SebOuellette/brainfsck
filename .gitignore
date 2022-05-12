@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+bfk
+
+# brainfuck files
+*.bf
