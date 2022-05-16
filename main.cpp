@@ -37,9 +37,12 @@ int main(int argc, char* argv[]) {
 	// Taking input from arguments
 	// Scan for arguments
 	bool PRINT_DIGIT = false;
+	bool PRINT_NEWLINE = true;
 	for (int i=1;i<argc;i++) {
 		if (strncmp(argv[i], "-d", 4) == 0) {
 			PRINT_DIGIT = true;
+		} else if (strncmp(argv[i], "-n", 4) == 0) {
+			PRINT_NEWLINE = false;
 		} else {
 			bfSourceCode += argv[i];
 		}
@@ -96,8 +99,10 @@ int main(int argc, char* argv[]) {
 
 			default: break;
 		}
+	}
 
-		
+	if (PRINT_NEWLINE) {
+		std::cout << std::endl;
 	}
 
 	// std::cout << "\nPointer: " << pointer << std::endl;

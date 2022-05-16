@@ -34,3 +34,6 @@ bfk
 
 # brainfuck files
 *.bf
+
+#vscode
+.vscode 
