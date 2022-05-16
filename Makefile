@@ -1,5 +1,5 @@
 CXX = g++
-EXE = main
+EXE = bfk
 
 LOPTS = #-lsfml-graphics -lsfml-window -lsfml-system 
 
